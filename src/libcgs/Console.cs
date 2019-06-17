@@ -6,7 +6,7 @@ namespace Citadel
 {
     public sealed class Console : IDisposable
     {
-        private static readonly Size CharacterSize = (8, 8);
+        private static readonly Size s_characterSize = (8, 8);
 
         private readonly Size _consoleSize;
         private readonly Renderer _renderer;
@@ -20,14 +20,14 @@ namespace Citadel
         public Console(Size size)
         {
             _consoleSize = size;
-            Window = Window.Create((size.Width * CharacterSize.Width, size.Height * CharacterSize.Height), WindowFlags.Shown, out var renderer);
+            Window = Window.Create((size.Width * s_characterSize.Width, size.Height * s_characterSize.Height), WindowFlags.Shown, out var renderer);
 
             using var fontResource = RWOps.CreateReadOnly(Resources.terminal);
             var fontSurface = Image.LoadPng(fontResource);
 
             _renderer = renderer;
             _font = _renderer.CreateTexture(fontSurface);
-            _fontTextureSize = (_font.Size.Width / CharacterSize.Width, _font.Size.Height / CharacterSize.Height);
+            _fontTextureSize = (_font.Size.Width / s_characterSize.Width, _font.Size.Height / s_characterSize.Height);
         }
 
         private void DrawCharacter(char c, Point location)
@@ -37,8 +37,8 @@ namespace Citadel
                 throw new InvalidOperationException();
             }
 
-            Rectangle fontClip = (((c / _fontTextureSize.Height) * CharacterSize.Width, (c % _fontTextureSize.Height) * CharacterSize.Height), CharacterSize);
-            Rectangle consoleClip = ((location.X * CharacterSize.Width, location.Y * CharacterSize.Height), CharacterSize);
+            Rectangle fontClip = ((c / _fontTextureSize.Height * s_characterSize.Width, c % _fontTextureSize.Height * s_characterSize.Height), s_characterSize);
+            Rectangle consoleClip = ((location.X * s_characterSize.Width, location.Y * s_characterSize.Height), s_characterSize);
             _renderer.Copy(_font, fontClip, consoleClip);
         }
 
