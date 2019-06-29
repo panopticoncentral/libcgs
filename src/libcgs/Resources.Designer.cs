@@ -63,9 +63,59 @@ namespace Citadel {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] terminal {
+        internal static byte[] Arial10x10 {
             get {
-                object obj = ResourceManager.GetObject("terminal", resourceCulture);
+                object obj = ResourceManager.GetObject("Arial10x10", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Arial12x12 {
+            get {
+                object obj = ResourceManager.GetObject("Arial12x12", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Arial8x8 {
+            get {
+                object obj = ResourceManager.GetObject("Arial8x8", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Consolas10x10 {
+            get {
+                object obj = ResourceManager.GetObject("Consolas10x10", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Consolas12x12 {
+            get {
+                object obj = ResourceManager.GetObject("Consolas12x12", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Consolas8x8 {
+            get {
+                object obj = ResourceManager.GetObject("Consolas8x8", resourceCulture);
                 return ((byte[])(obj));
             }
         }
