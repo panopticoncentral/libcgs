@@ -12,6 +12,7 @@ namespace Citadel
         private readonly TilesetFont _font;
 
         private readonly Renderer _renderer;
+        private readonly Texture _texture;
         private readonly TilesetTexture _tilesetTexture;
 
         private int[] _buffer;
@@ -32,12 +33,23 @@ namespace Citadel
 
             _font = font ?? TilesetFont.Arial8x8;
 
-            Window = Window.Create(title, (Window.UndefinedWindowLocation, (size.Width * _font.Tileset.TileSize.Width, size.Height * _font.Tileset.TileSize.Height)), WindowFlags.Shown);
-            _renderer = Renderer.Create(Window, -1, RendererFlags.Accelerated | RendererFlags.PresentVSync);
+            Window = Window.Create(title, (Window.UndefinedWindowLocation, (0, 0)), WindowFlags.Hidden);
+
+            _renderer = Renderer.Create(Window, -1, RendererFlags.Accelerated | RendererFlags.PresentVSync | RendererFlags.TargetTexture);
+            _texture = _renderer.CreateTexture(Window.PixelFormat, TextureAccess.Target, (Size.Width * _font.Tileset.TileSize.Width, Size.Height * _font.Tileset.TileSize.Height));
+
+            RecalculateWindowSize();
+            Window.SetVisible(true);
 
             _tilesetTexture = _font.Tileset.CreateTexture(_renderer);
 
             _buffer = new int[size.Width * size.Height];
+        }
+
+        private void RecalculateWindowSize()
+        {
+            var scale = Window.Display.Dpi.Horizontal / 96;
+            Window.Size = _texture.Size.Scale(scale);
         }
 
         public void Write(char c, Point location)
@@ -84,6 +96,7 @@ namespace Citadel
 
         public void Render()
         {
+            _renderer.Target = _texture;
             _renderer.DrawColor = (0xFF, 0xFF, 0xFF, 0xFF);
             _renderer.Clear();
 
@@ -95,6 +108,8 @@ namespace Citadel
                 }
             }
 
+            _renderer.Target = null;
+            _renderer.Copy(_texture);
             _renderer.Present();
         }
 
