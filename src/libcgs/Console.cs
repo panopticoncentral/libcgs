@@ -120,6 +120,7 @@ namespace Citadel
 
         public void Dispose()
         {
+            _texture.Dispose();
             _tilesetTexture.Dispose();
             _renderer?.Dispose();
             Window?.Dispose();
