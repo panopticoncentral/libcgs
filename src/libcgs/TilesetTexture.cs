@@ -41,9 +41,6 @@ namespace Citadel
         /// <summary>
         /// Disposes the texture.
         /// </summary>
-        public void Dispose()
-        {
-            _texture.Dispose();
-        }
+        public void Dispose() => _texture.Dispose();
     }
 }

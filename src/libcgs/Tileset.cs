@@ -47,9 +47,6 @@ namespace Citadel
         /// <summary>
         /// Disposes the tileset.
         /// </summary>
-        public void Dispose()
-        {
-            _surface.Dispose();
-        }
+        public void Dispose() => _surface.Dispose();
     }
 }
