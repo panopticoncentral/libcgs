@@ -7,9 +7,10 @@ namespace Citadel
     /// <summary>
     /// A class that represets an image that is subdivided into regular tile squares.
     /// </summary>
-    public sealed class Tileset : IDisposable
+    public sealed class Tileset
     {
-        private readonly Surface _surface;
+        private readonly Func<byte[]> _accessor;
+        private readonly string _type;
 
         /// <summary>
         /// The size of an individual tile in pixels.
@@ -25,28 +26,23 @@ namespace Citadel
         /// Creates a new tileset.
         /// </summary>
         /// <param name="tileSize">The size of each tile, in pixels.</param>
-        /// <param name="image">The byte array to load the tileset from.</param>
-        /// <param name="rowMajor">Whether the tileset is row-major or column-major.</param>
-        public Tileset(Size tileSize, byte[] image)
+        /// <param name="size">The size of the set, in tiles.</param>
+        /// <param name="accessor">An accessor for the byte array to load the tileset from.</param>
+        public Tileset(Size tileSize, Size size, string type, Func<byte[]> accessor)
         {
             TileSize = tileSize;
-
-            using var fontResource = RWOps.CreateReadOnly(image);
-            _surface = Image.LoadPng(fontResource);
-
-            Size = (_surface.Size.Width / TileSize.Width, _surface.Size.Height / TileSize.Height);
+            Size = size;
+            _accessor = accessor;
+            _type = type;
         }
 
         /// <summary>
         /// Creates a texture that can be used with a renderer.
         /// </summary>
         /// <param name="renderer">The renderer.</param>
+        /// <param name="colorKey">The color key, if any.</param>
         /// <returns>The tileset texture.</returns>
-        public TilesetTexture CreateTexture(Renderer renderer) => new TilesetTexture(this, _surface, renderer);
-
-        /// <summary>
-        /// Disposes the tileset.
-        /// </summary>
-        public void Dispose() => _surface.Dispose();
+        public Texture CreateTexture(Renderer renderer, Color? colorKey = default) =>
+            Image.Load(RWOps.CreateReadOnly(_accessor()), true, _type, renderer, colorKey);
     }
 }
