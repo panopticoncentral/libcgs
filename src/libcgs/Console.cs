@@ -49,7 +49,7 @@ namespace Citadel
         private void RecalculateWindowSize()
         {
             var scale = Window.Display.Dpi.Horizontal / 96;
-            Window.Size = _texture.Size.Scale(scale);
+            Window.Size = _texture.Size * scale;
         }
 
         public void Write(char c, Point location)
