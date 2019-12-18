@@ -113,10 +113,7 @@ namespace Citadel
             _renderer.Present();
         }
 
-        public void Clear()
-        {
-            _buffer = new int[Size.Width * Size.Height];
-        }
+        public void Clear() => _buffer = new int[Size.Width * Size.Height];
 
         public void Dispose()
         {
