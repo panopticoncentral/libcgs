@@ -7,9 +7,8 @@ namespace Citadel
     /// <summary>
     /// A class that represets an image that is subdivided into regular tile squares.
     /// </summary>
-    public sealed class Tileset
+    public sealed class Tileset : IDisposable
     {
-        private readonly Func<byte[]> _accessor;
         private readonly string _type;
         private readonly Color? _colorKey;
 
@@ -28,23 +27,16 @@ namespace Citadel
         /// </summary>
         public Size Size { get; }
 
-        /// <summary>
-        /// Creates a new tileset.
-        /// </summary>
-        /// <param name="tileSize">The size of each tile, in pixels.</param>
-        /// <param name="margin">The size of the right/bottom margin, in pixels.</param>
-        /// <param name="size">The size of the set, in tiles.</param>
-        /// <param name="type">The type of the image.</param>
-        /// <param name="colorKey">The color key, if any.</param>
-        /// <param name="accessor">An accessor for the byte array to load the tileset from.</param>
-        public Tileset(Size tileSize, Size margin, Size size, string type, Color? colorKey, Func<byte[]> accessor)
+        internal Texture Texture { get; }
+
+        internal Tileset(Renderer renderer, Size tileSize, Size margin, Size size, string type, byte[] resource, Color? colorKey)
         {
             TileSize = tileSize;
             Margin = margin;
             Size = size;
             _colorKey = colorKey;
-            _accessor = accessor;
             _type = type;
+            Texture = Image.Load(RWOps.CreateReadOnly(resource), true, _type, renderer, _colorKey);
         }
 
         /// <summary>
@@ -61,13 +53,7 @@ namespace Citadel
         /// <returns>The rectangle, in pixels, where the tile should be rendered.</returns>
         public Rectangle MapDestination(Point location) => ((location.X * TileSize.Width, location.Y * TileSize.Height), TileSize);
 
-        /// <summary>
-        /// Creates a texture that can be used with a renderer.
-        /// </summary>
-        /// <param name="renderer">The renderer.</param>
-        /// <param name="colorKey">The color key, if any.</param>
-        /// <returns>The tileset texture.</returns>
-        public Texture CreateTexture(Renderer renderer) =>
-            Image.Load(RWOps.CreateReadOnly(_accessor()), true, _type, renderer, _colorKey);
+        /// <inheritdoc/>
+        public void Dispose() => Texture.Dispose();
     }
 }
