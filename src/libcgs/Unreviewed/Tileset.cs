@@ -27,6 +27,23 @@ namespace Citadel
         /// </summary>
         public Size Size { get; }
 
+        /// <summary>
+        /// Returns the tile for a particular location.
+        /// </summary>
+        /// <param name="p">The location of the tile, in tiles.</param>
+        /// <returns>The tile.</returns>
+        public Tile this[Point p]
+        {
+            get
+            {
+                if (p.X < 0 || p.Y < 0 || p.X >= Size.Width || p.Y >= Size.Height)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                return new Tile(this, p);
+            }
+        }
+
         internal Texture Texture { get; }
 
         internal Tileset(Renderer renderer, Size tileSize, Size margin, Size size, string type, byte[] resource, Color? colorKey)

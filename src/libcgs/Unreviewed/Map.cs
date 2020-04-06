@@ -28,7 +28,7 @@ namespace Citadel
         public void AddCharacter(Character entity) => _characters.Add(entity);
 
         public bool IsBlocked(Point location) => 
-            !new Rectangle(Point.Origin, Size).Contains(location) 
+            !new Rectangle(Size).Contains(location) 
             || _characters.Any(e => e.Location == location) 
             || _terrain[location.X + (location.Y * Size.Width)]?.IsBlocking == true;
     }
