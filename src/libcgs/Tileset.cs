@@ -1,4 +1,5 @@
 ﻿using System;
+
 using SdlSharp;
 using SdlSharp.Graphics;
 

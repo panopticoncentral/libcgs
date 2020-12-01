@@ -1,6 +1,4 @@
-﻿using SdlSharp;
-
-namespace Citadel
+﻿namespace Citadel
 {
     public sealed class Terrain
     {

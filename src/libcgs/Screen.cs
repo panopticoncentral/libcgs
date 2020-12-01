@@ -1,5 +1,6 @@
 ﻿using SdlSharp;
 using SdlSharp.Graphics;
+
 using System;
 using System.Collections.Generic;
 
@@ -34,9 +35,9 @@ namespace Citadel
 
             _tilesets = new List<Tileset>();
 
-            Window = Window.Create(title, (Window.UndefinedWindowLocation, (0, 0)), WindowFlags.Hidden);
+            Window = Window.Create(title, (Window.UndefinedWindowLocation, (0, 0)), WindowOptions.Hidden);
 
-            _renderer = Renderer.Create(Window, -1, RendererFlags.Accelerated | RendererFlags.PresentVSync | RendererFlags.TargetTexture);
+            _renderer = Renderer.Create(Window, -1, RendererOptions.Accelerated | RendererOptions.PresentVSync | RendererOptions.TargetTexture);
             _backBuffer = _renderer.CreateTexture(Window.PixelFormat, TextureAccess.Target, Size);
             _backBuffer.BlendMode = BlendMode.Blend;
 

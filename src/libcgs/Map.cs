@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using SdlSharp;
 
 namespace Citadel
 {
     public sealed class Map
     {
-        private readonly List<Character> _characters = new List<Character>();
+        private readonly List<Character> _characters = new();
         private readonly Terrain?[] _terrain;
 
         public Size Size { get; }
@@ -27,9 +28,9 @@ namespace Citadel
 
         public void AddCharacter(Character entity) => _characters.Add(entity);
 
-        public bool IsBlocked(Point location) => 
-            !new Rectangle(Point.Origin, Size).Contains(location) 
-            || _characters.Any(e => e.Location == location) 
+        public bool IsBlocked(Point location) =>
+            !new Rectangle(Point.Origin, Size).Contains(location)
+            || _characters.Any(e => e.Location == location)
             || _terrain[location.X + (location.Y * Size.Width)]?.IsBlocking == true;
     }
 }
